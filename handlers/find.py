@@ -11,3 +11,4 @@ class FindHandler(tornado.web.RequestHandler):
         entity = dba.mongodb.MongoDB().get_many_docs(db,"tdiFiles",{"GUID":guid})
         #self.write(guid)
         self.write(dumps(entity))
+        #self.write("test")

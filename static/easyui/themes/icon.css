@@ -46,6 +46,9 @@
 .icon-redo{
 	background:url('icons/redo.png') no-repeat center center;
 }
+.icon-download{
+	background:url('icons/download.png') no-repeat center center;
+}
 .icon-back{
 	background:url('icons/back.png') no-repeat center center;
 }
