@@ -201,7 +201,7 @@ $(function () {
             $('#box').datagrid('unselectAll');
         },
         download: function () {
-           var req="../manager/download?emplid="+$.trim($('input[name="emplid"]').val())+"&date_from="+$('input[name="date_from"]').val()+"&date_to="+$('input[name="date_to"]').val()+"&IsWF="+$('#ddlIsWF').combobox('getValue')+"&company="+ $('#ddlCompany').combobox('getValue')+"&etprdp="+$('input[name="etprdp"]').val()+"&IsCheck="+$('#ddlIsCheck').combobox('getValue');
+           var req="../manager/download?emplid="+$.trim($('input[name="emplid"]').val())+"&date_from="+$('input[name="date_from"]').val()+"&date_to="+$('input[name="date_to"]').val()+"&IsWF="+$('#ddlIsWF').combobox('getValue')+"&company="+ $('#ddlCompany').combobox('getValue')+"&etprdp="+$('input[name="etprdp"]').val()+"&IsCheck="+$('#ddlIsCheck').combobox('getValue')+"&etprdp="+$('#etprdp').combobox('getValue')+"&software="+$('#software').combobox('getValue');
            window.location.href=req;
         },
         search : function () {

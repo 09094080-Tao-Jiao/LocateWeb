@@ -33,8 +33,8 @@ class ManagerHandler(tornado.web.RequestHandler):
                 where = where +(" AND IsCheck<>''Y'' ")
                 wherecount = wherecount +(" AND IsCheck<>'Y' ")
             else:
-                where = where +(" AND IsCheck=''%s'' ") % (IsWF)
-                wherecount = wherecount +(" AND IsCheck='%s' ") % (IsWF)
+                where = where +(" AND IsCheck=''%s'' ") % (IsCheck)
+                wherecount = wherecount +(" AND IsCheck='%s' ") % (IsCheck)
 
         if len(software)!=0 :
             where = where + (" AND software=''%s'' ") % (software)
@@ -100,11 +100,11 @@ class ManagerHandler(tornado.web.RequestHandler):
         typeOP = self.get_argument('typeOP')
 
         if typeOP =="1":
-            sqlCommand=("UPDATE  [dbo].[tdiFiles] SET IsCheck='Y' WHERE UID IN ('%s')")  % (uids.replace(",", "','"))
+            sqlCommand=("UPDATE  [dbo].[tdiFilesLast] SET IsCheck='Y' WHERE UID IN ('%s')")  % (uids.replace(",", "','"))
         elif typeOP =="2":
-            sqlCommand=("UPDATE  [dbo].[tdiFiles] SET IsCheck='N' WHERE UID IN ('%s')")  % (uids.replace(",", "','"))
+            sqlCommand=("UPDATE  [dbo].[tdiFilesLast] SET IsCheck='N' WHERE UID IN ('%s')")  % (uids.replace(",", "','"))
         else :
-            sqlCommand=("UPDATE  [dbo].[tdiFiles] SET IsCheck='' WHERE UID IN ('%s')")  % (uids.replace(",", "','"))
+            sqlCommand=("UPDATE  [dbo].[tdiFilesLast] SET IsCheck='' WHERE UID IN ('%s')")  % (uids.replace(",", "','"))
         mssql=dba.mssql.MSSQL()
         mssql.ExecNonQuery(sqlCommand)
         self.write("true")
@@ -139,7 +139,7 @@ class ManagerCSVHandler(tornado.web.RequestHandler):
             if IsCheck=='NNULL':
                 where = where +(" AND IsCheck<>'Y' ")
             else:
-                where = where +(" AND IsCheck='%s' ") % (IsWF)
+                where = where +(" AND IsCheck='%s' ") % (IsCheck)
 
         if len(software)!=0 :
             where = where +(" AND software=N'%s' ") % (software)
@@ -164,11 +164,11 @@ class ManagerCSVHandler(tornado.web.RequestHandler):
 
 
         if len(where)!=0 :
-            sqlCommand=("SELECT * FROM [ITCommon].[dbo].[View_tdiSoftwareScan_Python_Only]"
+            sqlCommand=("SELECT * FROM [ITCommon].[dbo].[View_tdiSoftwareScan_Python_Last]"
               "WHERE %s") \
             % (where)
         else:
-            sqlCommand=("SELECT * FROM [ITCommon].[dbo].[View_tdiSoftwareScan_Python_Only]")
+            sqlCommand=("SELECT * FROM [ITCommon].[dbo].[View_tdiSoftwareScan_Python_Last]")
 
 
         mssql=dba.mssql.MSSQL()
