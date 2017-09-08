@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>软件自查结果报告</title>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE9" />
+<script type="text/javascript" src="../static/easyui/jquery.min.js"></script>
+<script type="text/javascript" src="../static/easyui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="../static/easyui/locale/easyui-lang-zh_CN.js" ></script>
+<script type="text/javascript" src="../static/js/manager.js"></script>
+<link rel="stylesheet" type="text/css" href="../static/easyui/themes/default/easyui.css" />
+<link rel="stylesheet" type="text/css" href="../static/easyui/themes/icon.css" />
+
+
+<style>
+  .datagrid-cell{
+    font-size:20px;
+  }
+  .datagrid-header{
+    font-size:20px;
+  }
+</style>
+
+
+</head>
+<body>
+<h1>软件自查结果维护：</h1>
+
+<div id="tool" style="padding:5px;">
+    <div style="margin-bottom:5px;">
+        <a href="#" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="tool.check();">设置为合法</a>
+        <a href="#" class="easyui-linkbutton" iconcls="icon-cancel" plain="true" onclick="tool.checkno();">设置为非法</a>
+        <a href="#" class="easyui-linkbutton" iconcls="icon-redo" plain="true" onclick="tool.uncheck();">取消设置</a>
+        <a href="#" class="easyui-linkbutton" iconcls="icon-save" plain="true" id="save" onclick="tool.reload();">刷新</a>
+        <a href="#" class="easyui-linkbutton" iconcls="icon-redo" plain="true" id="redo" onclick="tool.redo();">取消编勾选</a>
+        <a href="#" class="easyui-linkbutton" iconcls="icon-download" plain="true" id="redo" onclick="tool.download();">下载</a>
+     </div>
+
+    <div style="padding:0 0 0 7px;color:#333;">
+        Company：
+        <select class="easyui-combobox" name="company" style="width:110px;" id='ddlCompany'>
+            <option value="">ALL</option>
+            <option value="QSMC">QSMC</option>
+            <option value="CSMC">CSMC</option>
+            <option value="QCMC">QCMC</option>
+        </select>
+        是否合法：
+        <select class="easyui-combobox" name="IsCheck" style="width:80px;" id='ddlIsCheck'>
+            <option value="">ALL</option>
+            <option value="Y">Y</option>
+            <option value="N">N</option>
+            <option value="NNULL" selected="true">N或空</option>
+        </select>
+        是否iWorkflow：
+        <select class="easyui-combobox" name="IsWF" style="width:50px;" id='ddlIsWF'>
+            <option value="">ALL</option>
+            <option value="Y">Y</option>
+            <option value="N" selected="true">N</option>
+        </select>
+
+        <a href="#" class="easyui-linkbutton" iconcls="icon-search" onclick="tool.search();">查询</a>
+
+        <span ID=moreQuery>
+            <a href="#" class="easyui-linkbutton" iconcls="icon-search" onclick="getMoreQuery();">更多查询↓</a>
+        </span>
+        <span ID=littleQuery>
+            <a href="#" class="easyui-linkbutton" iconcls="icon-search" onclick="setLittleQuery();">简要查询↑</a>
+        </span>
+
+    </div>
+
+
+
+    <div ID=queryMore  style="padding:0 0 0 7px;color:#333;display:none">
+     厂区：<input id="etprdp"  name="etprdp" style="width:110px" >
+     工号：<input type="text" class="textbox" name="emplid" style="width:110px" >
+     软件：<input id="software"  name="software" style="width:110px" >
+     创建时间从：<input type="text" name="date_from" class="easyui-datebox" editable="false" style="width:110px">
+     到：<input type="text" name="date_to" class="easyui-datebox" editable="false" style="width:110px">
+    </div>
+</div>
+
+<table id="box"   class="easyui-datagrid"  rownumbers="true" singleSelect="true">
+<thead>
+    <tr>
+        <th field="Computer">计算机名</th>
+        <th field="UserName">登陆账号</th>
+        <th field="Mac" >Mac地址</th>
+        <th field="FileName">文件名</th>
+        <th field="FilePath">文件路径</th>
+    </tr>
+</thead>
+<tfoot>
+</table>
+
+<div>
+<input id="showQueryMark" type="hidden" name="showQueryMark" />
+</div>
+
+</body>
+</html>

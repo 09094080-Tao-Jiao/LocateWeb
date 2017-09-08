@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>软件自查结果报告</title>
+<meta charset="UTF-8" />
+
+<!-- CSS goes in the document HEAD or added to your external stylesheet -->
+<style type="text/css">
+table.imagetable {
+  font-family: verdana,arial,sans-serif;
+  font-size:11px;
+  color:#333333;
+  border-width: 1px;
+  border-color: #999999;
+  border-collapse: collapse;
+}
+table.imagetable th {
+  background:#b5cfd2 url('../static/img/cell-blue.jpg');
+  border-width: 1px;
+  padding: 8px;
+  border-style: solid;
+  border-color: #999999;
+}
+table.imagetable td {
+  background:#dcddc0 url('../static/img/cell-grey.jpg');
+  border-width: 1px;
+  padding: 8px;
+  border-style: solid;
+  border-color: #999999;
+}
+</style>
+<!-- Table goes in the document BODY -->
+
+</head>
+<body>
+
+<h1>软件自查结果报告：共{{count}}记录&nbsp;&nbsp;&nbsp;&nbsp;工号：{{UserName}}({{Computer}})</h1>
+<table id="box" class="imagetable">
+<thead>
+    <tr>
+        <th field="Computer">计算机名</th>
+        <th field="UserName">登陆账号</th>
+        <th field="Mac" >Mac地址</th>
+        <th field="FileName">文件名</th>
+        <th field="FilePath">文件路径</th>
+    </tr>
+</thead>
+<tbody>
+  {% for record in records %}
+     <tr>
+        <td>{{ record.get('Computer', '') }}</td>
+        <td>{{ record.get('UserName', '') }}</td>
+        <td>{{ record.get('Mac', '') }}</td>
+        <td>{{ record.get('FileName', '') }}</td>
+        <td>{{ record.get('FilePath', '') }}</td>
+     </tr>
+  {% end %}
+</tbody>
+</table>
+<br/>
+<font size="2">{{StartOn}}~{{EndOn}},执行{{execMinute}}分钟</font>
+
+</body>
+</html>
