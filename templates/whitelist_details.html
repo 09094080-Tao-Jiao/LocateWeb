@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>软件白名单设置</title>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE9" />
+<script type="text/javascript" src="http://127.0.0.1:8000/static/easyui/jquery.min.js"></script>
+<script type="text/javascript" src="http://127.0.0.1:8000/static/easyui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="http://127.0.0.1:8000/static/easyui/locale/easyui-lang-zh_CN.js" ></script>
+<link rel="stylesheet" type="text/css" href="http://127.0.0.1:8000/static/easyui/themes/default/easyui.css" />
+<link rel="stylesheet" type="text/css" href="http://127.0.0.1:8000/static/easyui/themes/icon.css" />
+
+
+<style>
+  .datagrid-cell{
+    font-size:20px;
+  }
+  .datagrid-header{
+    font-size:20px;
+  }
+</style>
+
+
+</head>
+<body>
+<input type="text" class="textbox" name="uid" value={{uid}} style="display:none;">
+<h1>软件白名单设置</h1>
+
+<div id="tool" style="padding:5px;">
+    <div style="margin-bottom:5px;">
+     </div>
+
+</div>
+
+<table id="box"   class="easyui-datagrid"  rownumbers="true" singleSelect="true">
+<thead>
+    <tr>
+        <th field="ProductName">Product Name</th>
+        <th field="LegalCopyright">Legal Copyright</th>
+    </tr>
+</thead>
+<tfoot>
+</table>
+
+<div>
+<input id="showQueryMark" type="hidden" name="showQueryMark" />
+</div>
+
+<script type="text/javascript" src="http://127.0.0.1:8000/static/js/whitelist_details.js"></script>
+
+</body>
+</html>

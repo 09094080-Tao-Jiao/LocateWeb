@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>软件白名单设置</title>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE9" />
+<script type="text/javascript" src="../static/easyui/jquery.min.js"></script>
+<script type="text/javascript" src="../static/easyui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="../static/easyui/locale/easyui-lang-zh_CN.js" ></script>
+<link rel="stylesheet" type="text/css" href="../static/easyui/themes/default/easyui.css" />
+<link rel="stylesheet" type="text/css" href="../static/easyui/themes/icon.css" />
+
+
+<style>
+  .datagrid-cell{
+    font-size:20px;
+  }
+  .datagrid-header{
+    font-size:20px;
+  }
+</style>
+
+
+</head>
+<body>
+<h1>软件白名单设置</h1>
+
+<div id="tool" style="padding:5px;">
+    <div style="margin-bottom:5px;">
+        <a href="#" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="tool.check();">设置为白名单</a>
+        <a href="#" class="easyui-linkbutton" iconcls="icon-cancel" plain="true" onclick="tool.checkno();">设置为非白名单</a>
+        <a href="#" class="easyui-linkbutton" iconcls="icon-save" plain="true" id="save" onclick="tool.reload();">刷新</a>
+        <a href="#" class="easyui-linkbutton" iconcls="icon-download" plain="true" id="redo" onclick="tool.download();">下载</a>
+     </div>
+
+</div>
+
+<div style="padding:0 0 0 7px;color:#333;">
+      Company：
+      <select class="easyui-combobox" name="company" style="width:110px;" id='ddlCompany'>
+          <option value="">ALL</option>
+          <option value="QSMC">QSMC</option>
+          <option value="CSMC">CSMC</option>
+          <option value="QCMC">QCMC</option>
+      </select>
+      是否白名单：
+      <select class="easyui-combobox" name="IsCheck" style="width:80px;" id='ddlIsCheck'>
+          <option value="">ALL</option>
+          <option value="Y">Y</option>
+          <option value="N" selected="true">N</option>
+      </select>
+      <a href="#" class="easyui-linkbutton" iconcls="icon-search" onclick="tool.search();">查询</a>
+</div>
+
+
+<table id="box"   class="easyui-datagrid"  rownumbers="true" singleSelect="true">
+<thead>
+    <tr>
+        <th field="ProductName">Product Name</th>
+        <th field="LegalCopyright">Legal Copyright</th>
+        <th field="Num" >Num</th>
+    </tr>
+</thead>
+<tfoot>
+</table>
+
+<div>
+<input id="showQueryMark" type="hidden" name="showQueryMark" />
+</div>
+
+<script type="text/javascript" src="../static/js/whitelist.js"></script>
+
+</body>
+</html>

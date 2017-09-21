@@ -211,3 +211,101 @@ class SoftwareHandler(tornado.web.RequestHandler):
 
         self.write(dumps(software))
 
+class WhiteListIndexHandler(tornado.web.RequestHandler):
+    def get(self):
+        self.render('whitelist.html')
+
+class WhiteListHandler(tornado.web.RequestHandler):
+    def get(self):
+
+        company = self.get_argument('company')
+        IsCheck = self.get_argument('IsCheck')
+
+        where =" 1=1 "
+        wherecount = " 1=1 "
+
+        if len(IsCheck)!=0 :
+            if IsCheck=='NNULL':
+                where = where +(" AND IsCheck<>''Y'' ")
+                wherecount = wherecount +(" AND IsCheck<>'Y' ")
+            else:
+                where = where +(" AND IsCheck=''%s'' ") % (IsCheck)
+                wherecount = wherecount +(" AND IsCheck='%s' ") % (IsCheck)
+
+        if len(company)!=0 :
+            where = where + (" AND company=''%s'' ") % (company)
+            wherecount = wherecount +(" AND company='%s' ") % (company)
+
+
+        page = self.get_argument('page')
+        rows = self.get_argument('rows')
+
+        #print(page,rows)
+
+        if len(where)!=0 :
+            sqlCommand=("SELECT COUNT(*),COUNT(*)/%s FROM [ITCommon].[dbo].[tdiFilesAllExe_GruopByProductName]"
+              "WHERE %s") \
+            % (rows,wherecount)
+        else:
+            sqlCommand=("SELECT COUNT(*),COUNT(*)/%s FROM [ITCommon].[dbo].[tdiFilesAllExe_GruopByProductName]") \
+            % (rows)
+
+        mssql=dba.mssql.MSSQL()
+        count = mssql.ExecQuery(sqlCommand)
+
+        sqlCommand=("[dbo].[sys_Page_v2]  @PCount='%s',@RCount='%s'"
+            ",@sys_Table='[ITCommon].[dbo].[tdiFilesAllExe_GruopByProductName]',@sys_Key='UID'"
+            ",@sys_Fields='*',@sys_Where='%s'"
+            ",@sys_Order='UID DESC',@sys_Begin='1'"
+            ",@sys_PageIndex='%s',@sys_PageSize='%s'") \
+            % (count[0][1],count[0][0],where,page,rows)
+
+        files = mssql.ExecQueryDic(sqlCommand)
+
+        #print(sqlCommand)
+
+        results = {'total': count[0][0], 'rows': files};
+
+        self.write(dumps(results))
+
+    def post(self):
+
+        uids = self.get_argument('uids')
+
+        #sqlCommand=("UPDATE  [dbo].[tdiFilesAllExe_GruopByProductName] SET IsCheck='Y' WHERE UID IN ('%s')")  % (uids.replace(",", "','"))
+
+        typeOP = self.get_argument('typeOP')
+
+        if typeOP =="1":
+            sqlCommand=("UPDATE  [dbo].[tdiFilesAllExe_GruopByProductName] SET IsCheck='Y' WHERE UID IN ('%s')")  % (uids.replace(",", "','"))
+        elif typeOP =="2":
+            sqlCommand=("UPDATE  [dbo].[tdiFilesAllExe_GruopByProductName] SET IsCheck='N' WHERE UID IN ('%s')")  % (uids.replace(",", "','"))
+        else :
+            sqlCommand=("UPDATE  [dbo].[tdiFilesAllExe_GruopByProductName] SET IsCheck='' WHERE UID IN ('%s')")  % (uids.replace(",", "','"))
+
+        mssql=dba.mssql.MSSQL()
+        mssql.ExecNonQuery(sqlCommand)
+        self.write("true")
+
+
+class WhiteListDetailsIndexHandler(tornado.web.RequestHandler):
+    def get(self):
+        uid = self.get_argument('uid')
+        self.render('whitelist_details.html',uid = uid)
+
+class WhiteListDetailsQueryHandler(tornado.web.RequestHandler):
+    def get(self):
+
+        uid = self.get_argument('uid')
+        print(uid)
+        mssql=dba.mssql.MSSQL()
+        sqlCommand=("SELECT  A.ProductName,A.LegalCopyright,A.Computer,A.UserName,A.FileName,A.FilePath  FROM  [dbo].[tdiFilesAllExe] A WITH(NOLOCK) INNER " 
+                    " JOIN tdiFilesAllExe_GruopByProductName B WITH(NOLOCK) "
+                    " ON A.ProductName=B.ProductName AND A.LegalCopyright=B.LegalCopyright "
+                    " WHERE B.UID='%s'" % (uid))
+
+        print(sqlCommand)
+
+        files = mssql.ExecQueryDic(sqlCommand)
+        self.write(dumps(files))
+
