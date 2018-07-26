@@ -1,3 +1,5 @@
+#coding:utf-8
+
 import tornado.web
 from models.entity import Entity
 import dba.mongodb
@@ -89,6 +91,8 @@ class ManagerHandler(tornado.web.RequestHandler):
 
         files = mssql.ExecQueryDic(sqlCommand)
 
+        #print(sqlCommand)
+
         results = {'total': count[0][0], 'rows': files};
 
         self.write(dumps(results))
@@ -174,9 +178,11 @@ class ManagerCSVHandler(tornado.web.RequestHandler):
         mssql=dba.mssql.MSSQL()
         files = mssql.ExecQueryDic(sqlCommand)
 
-        self.set_header("Content-Type", 'text/csv; charset="utf8"')
+        print(len(files))
+
+        self.set_header("Content-Type", 'text/csv; charset="GBK"')
         self.set_header('content-Disposition','attachment; filename=dump.csv')
-        self.write(('是否合法,是否iWorkflow,Company,厂区,计算机名,登陆账号,Mac地址,创建日期,姓名,部门,软件,文件名,文件路径\r\n').encode('gb2312')) # File header
+        self.write(('是否合法,是否iWorkflow,Company,厂区,计算机名,登陆账号,Mac地址,创建日期,姓名,部门,软件,文件名,文件路径\r\n').encode('GBK')) # File header
         for file in files:
             self.write((','.join([str(file['IsCheck']),
                                  str(file['IsWF']),
@@ -190,7 +196,7 @@ class ManagerCSVHandler(tornado.web.RequestHandler):
                                  str(file['shonam']),
                                  str(file['software']),
                                  str(file['FileName']),
-                                 str(file['FilePath'])])+'\r\n').encode('gb2312'))
+                                 str(file['FilePath'])])+'\r\n').encode('GBK'))
             yield self.flush()
 
 class EtprdpHandler(tornado.web.RequestHandler):
